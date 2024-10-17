@@ -9,10 +9,15 @@ import MainLayout from "./layout/MainLayout";
 import Dashboard from "./pages/Dashboard";
 import LandingPage from "./pages/LandingPage";
 import NotFoundPage from "./pages/products/NotFoundPage";
+import UserLogin from "./components/UserLogin";
+import UserRegistration from "./components/UserRegistration";
 import { useState } from "react";
 
 // Add New Product
 const App = () => {
+  const [products, setProductsItems] = useState([]);
+  const [error, setError] = useState(null);
+
   const [productImage, setProductImage] = useState(null);
   const newProduct = async (addNewProduct) => {
     
@@ -50,18 +55,28 @@ const App = () => {
 
   // Delete Product
   const deleteProduct = async (id) => {
-    const res = await fetch(`http://localhost:1337/api/products/${id}`, {
-      method: "DELETE",
-      mode: "cors",
-    });
-    console.log(res);
-    return;
+    try {
+      const res = await fetch(`http://localhost:1337/api/products/${id}`, {
+        method: "DELETE",
+        mode: "cors",
+      });
+      if(!Response.ok) {
+        throw new Error('Failed to delete item');
+      }
+      // Remove the deleted item from local state
+      setProductsItems(products.filter(product => product.id !== id));
+    } catch (err) {
+      setError(err.message);
+    }
+    
   };
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/login" element={<UserLogin />} />
+        <Route path="/register" element={<UserRegistration/>} />
         <Route index element={<LandingPage />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route

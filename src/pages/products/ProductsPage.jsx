@@ -78,7 +78,7 @@ const ProductsPage = ({ addProductSubmit, deleteProduct, productImage, setProduc
           </h1>
           <p className="lead mb-4">
             Easily add new products to your store with just a few clicks. Expand
-            your inventory now and enhance your customers' shopping experience
+            your inventory now and enhance your customers shopping experience
             by offering them a wide range of products tailored to their needs.
             Stay ahead of the competition and grow your business today!
           </p>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Sparkle from '../assets/images/sparkles_6853977.svg'
 import inventImage from '../assets/images/inventImage.jpg'
 import { Link } from 'react-router-dom'
