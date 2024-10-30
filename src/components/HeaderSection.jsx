@@ -77,9 +77,6 @@ const HeaderSection = () => {
             </div>
           </div>
         </div>
-
-        
-
       </header>
     </>
   )
