@@ -82,28 +82,7 @@ const LandingPage = () => {
                     </div>
                 </div>
             </section>
-
-        {/* Subscription */}
-
-        <section id="subscription" className="mt-5">
-            <div className="container">
-                <div className="col-md-6 offset-md-3 text-center align-items-center">
-                    <h2 className="fw-bold text-primary"><i className="fa-solid fa-envelope "></i> Stay Updated with the Latest Features</h2>
-                    <p>Be the first to know about new features, product updates, and tips on maximizing your inventory management system. Subscribe to our newsletter and never miss an important update that can help you streamline your business operations.</p>
-                </div>
-                <div className="row">
-                    <div className="col-md-6 offset-md-3 text-center align-items-center">
-                        <div className="input-group mb-3">
-                            <input type="email" className="form-control" placeholder='Enter Email Address'/>
-                            <button type='button' className="btn btn-primary text-white rounded-0">Submit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
         </div>
-
-        {/* Services & Testimonials */}
 
         <section className="services text-bg-dark py-5 position-relative">
             <div className="container">
@@ -143,6 +122,53 @@ const LandingPage = () => {
                 </div>
             </div>
         </section>
+
+        <footer className='footer bg-dark text-white position-relative py-5'>
+        <div className="container py-5">
+            <div className="row">
+                <div className="col-md-4">
+                    <h4 className="text-center text-md-start fw-bold">About Product Inventory</h4>
+                    <p className="text-center text-md-start">Our Inventory Management System is designed to streamline your business operations by giving you full control over your stock in real-time. Whether you are managing hundreds of products or just a few.</p>
+                </div>
+                <div className="col-md-4">
+                    <h4 className="text-center text-md-start fw-bold">Links</h4>
+                    <ul className="list-unstyled text-center text-md-start">
+                        <li>Important: <Link to="/terms" className="text-decoration-none">Terms & Conditions</Link>
+                        </li>
+                    </ul>
+                    <ul className="list-unstyled text-center text-md-start">
+                        <li>Useful: <Link to="/privacy" className="text-decoration-none">Privacy Policy</Link>
+                        </li>
+                    </ul>
+                    <ul className="list-unstyled text-center text-md-start">
+                        <li>Menu: <Link to="/" className="text-decoration-none">Home</Link>
+                        <Link to="/dashboard" className="text-decoration-none mx-2">Dashboard</Link>
+                        <Link to="/contact" className="text-decoration-none">Contact Us</Link>
+                        </li>
+                    </ul>
+                </div>
+                <div className="col-md-4">
+                    <div className="mb-4 text-center text-md-start">
+                        <a href="#" className="text-decoration-none">
+                            <i className="fab fa-facebook fa-3x text-light mx-2"></i>
+                        </a>
+                        <a href="#" className="text-decoration-none">
+                            <i className="fa-brands fa-x-twitter fa-3x text-light mx-2"></i>
+                        </a>
+                        <a href="#" className="text-decoration-none">
+                        <i className="fa-brands fa-instagram fa-3x text-light mx-2"></i>
+                        </a>
+                        <a href="#" className="text-decoration-none">
+                            <i className="fa-brands fa-youtube fa-3x text-light mx-2"></i>
+                        </a>
+                        <a href="#" className="text-decoration-none">
+                            <i className="fa-brands fa-whatsapp fa-3x text-light mx-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </footer>
     </>
     
     

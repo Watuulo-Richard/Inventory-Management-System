@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate} from "react-router-dom";
 import { Link } from "react-router-dom"
 import { loginUser } from '../Api';
-import imagePicture from '../assets/images/Login 2.avif'
+import imagePicture from '../assets/images/Login 2.avif';
+import Spinners from './Spinners'
 
 const UserLogin = () => {
-
    const navigate = useNavigate()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -27,6 +27,15 @@ const UserLogin = () => {
         }
         
     }
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setTimeout(()=>{setLoading(false)}, 2000)
+      }, []);
+
+    if(loading) {
+        return <Spinners loading={ loading }/>
+      }
   return (
     <>
       <div className="container my-5 py-5">
@@ -52,12 +61,14 @@ const UserLogin = () => {
                   />
                 </div>
           
-                <button className="btn btn-primary" type="submit">
-                  Login
-                </button>
-                <Link to='/register' className="btn btn-outline-primary mx-3" type="submit">
-                  Sign-Up
-                </Link>
+                <div className="d-grid">
+                  <button className="btn btn-primary " type="submit">
+                    Login
+                  </button>
+                  <Link to='/register' className="btn btn-outline-primary my-2" type="submit">
+                    Sign-Up
+                  </Link>
+                </div>
               </form>
             </div>
             <div className="col-md-6 align-items-center">

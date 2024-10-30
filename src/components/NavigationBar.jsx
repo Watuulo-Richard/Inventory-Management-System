@@ -13,7 +13,7 @@ const NavigationBar = () => {
             <div className="container-fluid">
                 <Link className="navbar-brand btn btn-dark" to="/">
                 <div className="fw-bold d-none d-sm-block">
-                    <span className="text-white">Inventory Management System</span>
+                    <span className="text-white">IMS</span>
                 </div>
                 </Link>
                 <button
@@ -27,15 +27,36 @@ const NavigationBar = () => {
                 <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarNavDropdown">
-                <ul className="navbar-nav ms-auto my-2 mb-lg-0">
-                    <li className="nav-item">
-                    <Link className="nav-link btn btn-dark" aria-current="page" to="/login">
-                        <span className="text-white fw-bold text-decoration-underline">
-                        Login <i className="fas fa-sign-in-alt text-warning"></i>
-                        </span>
-                    </Link>
-                    </li>
-                </ul>
+                    <ul className="navbar-nav ms-auto my-2 mb-lg-0">
+                        <li className="nav-item">
+                            <Link className="nav-link mx-2 btn btn-dark" aria-current="page" to="/admin">
+                                <span className="text-white fw-bold text-decoration-none">
+                                    Dashboard <i className="fa-solid fa-gauge text-warning"></i>
+                                </span>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link btn btn-dark" aria-current="page" to="/stockstatus">
+                                <span className="text-white fw-bold text-decoration-none">
+                                    Product Status <i className="fa-solid fa-chart-pie text-warning"></i>
+                                </span>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link btn btn-dark" aria-current="page" to="">
+                                <span className="text-white fw-bold text-decoration-none">
+                                    Order <i className="fa-solid fa-arrow-down-short-wide text-warning mx-2"></i>
+                                </span>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link btn btn-dark" aria-current="page" to="/login">
+                                <span className="text-white fw-bold text-decoration-none">
+                                    Login <i className="fas fa-sign-in-alt text-warning"></i>
+                                </span>
+                            </Link>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>

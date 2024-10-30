@@ -1,9 +1,9 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function StockReport() {
-    const [understocked, setUnderstocked]= useState([])
-    const [overstocked, setOverstocked]= useState([])
+    const [understocked, setUnderstocked]= useState([]);
+    const [overstocked, setOverstocked]= useState([]);
 
     useEffect(()=>{
         axios.get("https://inventorymanagement-systemwithstrapi.onrender.com/api/products")
@@ -28,72 +28,48 @@ function StockReport() {
 
     },[])
 
-    console.log("understcoked", understocked)
+    console.log("understocked", understocked)
   return (
-    <div>
-<br />
-<br />
-<br />
-<br />
-<br />
+      <div className='container py-5 my-5'>
         <h2>UnderStocked Products</h2>
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Product Name</th>
+              <th scope="col">Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {understocked.map((product,index)=>(
+                <tr key={`understock-${index}`}>
+                <td>{product?.name}</td>
+                <td>{product?.quantity}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <h2>OverStocked Products</h2>
 
         <table className="table">
-  <thead>
-    <tr>
-      
-      <th scope="col">Product Name</th>
-      <th scope="col">Quantity</th>
-      
-    </tr>
-  </thead>
-  <tbody>
-    {understocked.map((product,index)=>(
-        <tr key={`understock-${index}`}>
-        
-        
-        <td>{product?.name}</td>
-        <td>{product?.quantity}</td>
-      </tr>
-
-    ))}
-
-
-     
-    
-  </tbody>
-</table>
-<br />
-<br />
-<br />
-<h2>OverStocked Products</h2>
-
-        <table className="table">
-  <thead>
-    <tr>
-      
-      <th scope="col">Product Name</th>
-      <th scope="col">Quantity</th>
-      
-    </tr>
-  </thead>
-  <tbody>
-   
-{overstocked.map((product,index)=>(
-        <tr key={`overstock-${index}`}>
-        
-        
-        <td>{product?.name}</td>
-        <td>{product?.quantity}</td>
-      </tr>
-
-    ))}
-     
-    
-  </tbody>
-</table>
-      
-    </div>
+          <thead>
+            <tr>
+              
+              <th scope="col">Product Name</th>
+              <th scope="col">Quantity</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            {overstocked.map((product,index)=>(
+            <tr key={`overstock-${index}`}>
+              <td>{product?.name}</td>
+              <td>{product?.quantity}</td>
+            </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
   )
 }
 

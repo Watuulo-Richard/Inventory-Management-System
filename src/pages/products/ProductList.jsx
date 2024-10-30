@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Spinners from "../../components/Spinners";
 
 function ProductList() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -66,10 +66,12 @@ function ProductList() {
         console.log("result", result);
         
       }
-      navigate("/productlist")
+      
     } catch (error) {
       console.error("Error placing order", error);
     }
+    navigate('/productlist');
+    window.location.reload();
   };
 
   const handleEdit = (product) => {
@@ -79,7 +81,7 @@ function ProductList() {
     setCategory(product.category);
     setBrand(product.brand);
     setDescription(product.description);
-    setQuantity(product.quantity); // Added quantity
+    setQuantity(product.quantity); 
   };
 
   const handleUpdate = (e) => {
@@ -104,44 +106,73 @@ function ProductList() {
     setEditingProduct(null); // Close the editing form
   };
 
-  const deleteProduct = async (id) => {
-    try {
-      const response = await fetch(
-        `https://inventorymanagement-systemwithstrapi.onrender.com/api/products/${id}`,
-        {
-          method: "Delete",
-        }
-      );
+// Delete Product 
+const deleteProduct = async (id) => {
+  try {
+    const deleteRes = await fetch(`https://inventorymanagement-systemwithstrapi.onrender.com/api/products/${id}`, {
+      method: "DELETE",
+      mode: "cors",
+      headers: {
+        "Authorization": "7f977e153287cbd660b179f27403a807d761cb760506a50ba97a5460e3c46deb58f3bbd23daabd8697af10c70c871472376c08a3ac27079242fa4063ba9d36ab5f52ab197b154262e43dc667e927af2b824feb67570f049d12b507bcde12aefcf46c0279491f8aa2c426d142bf720646aabcd8103aa39cd2fbf73f7d92084ebc",
 
-      if (response.ok) {
-        setProducts(products.filter((product) => product.id !== id));
-        alert("product deleted successfully");
-      } else {
-        console.error("failed to delete product", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error deleting the product:", error);
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        identifier: "Watuulo Richard",
+        password: "Watuulorichardb54f20#",
+      }),
+    });
+
+    if (deleteRes.status === 404) {
+      console.error(`Product with ID ${id} does not exist.`);
+      return;
     }
-  };
+
+    if (!deleteRes.ok) {
+      throw new Error(`Failed to delete product with ID ${id}: ${deleteRes.statusText}`);
+    }
+
+    console.log(`Product with ID ${id} deleted successfully.`);
+
+    // Update the products state after successful deletion
+    setProducts(products.filter((product) => product.id !== id));
+    } catch (error) {
+      console.error("Error deleting product:", error);
+  }
+    
+};
+
+const onDeleteClick = async (documentId) => {
+  const confirmDelete = window.confirm("Are You Sure You Want To Delete This Product?");
+  if (!confirmDelete) return;
+
+  try {
+    await deleteProduct(documentId);
+    window.location.reload();
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    alert("Failed to delete the product. Please try again.");
+  }
+};
 
   if (loading) {
     return <Spinners loading={loading} />;
   }
 
   return (
-    <div>
-      <br />
-      <br />
-      <br />
+    <div className="container my-5 py-5">
 
-      <button
-        type="button"
-        className="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop"
-      >
-        Create a Product
-      </button>
+      
+        <button
+          type="button"
+          className="btn btn-primary w-100 w-md-auto"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+        >
+          Create a Product
+        </button>
+      
 
       <div
         className="modal fade"
@@ -289,7 +320,7 @@ function ProductList() {
                     onChange={(e) => setDescription(e.target.value)}
                   ></textarea>
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" onClick={addProductSubmit} className="btn btn-primary">
                   {editingProduct ? "Update Product" : "Create Product"}
                 </button>
                 {editingProduct && (
@@ -330,12 +361,12 @@ function ProductList() {
                 <td>{product.price}</td>
                 <td>
                   {product.quantity}
-                  {product.quantity < 10 && (
-                    <small className="text-danger d-block">Understocked</small>
+                  {/* {product.quantity < 10 && (
+                    // <small className="text-danger d-block">Understocked</small>
                   )}
                   {product.quantity > 50 && (
-                    <small className="text-success d-block">Overstocked</small>
-                  )}
+                    // <small className="text-success d-block">Overstocked</small>
+                  )} */}
                 </td>
                 <td style={{ width: "10px", whiteSpace: "nowrap" }}>
                   <button
@@ -345,7 +376,7 @@ function ProductList() {
                     Edit
                   </button>
                   <button
-                    onClick={() => deleteProduct(product.id)}
+                    onClick={ () => onDeleteClick(product.documentId)}
                     className="btn btn-danger btn-sm mx-1"
                   >
                     Delete

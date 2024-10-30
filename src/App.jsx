@@ -10,7 +10,6 @@ import LandingPage from "./pages/LandingPage";
 import NotFoundPage from "./pages/products/NotFoundPage";
 import UserLogin from "./components/UserLogin";
 import UserRegistration from "./components/UserRegistration";
-// import { useState } from "react";
 import ContactPage from "./pages/ContactPage";
 import ProductList from "./pages/products/ProductList";
 import AdminDashboard from "./components/AdminDashboard";
