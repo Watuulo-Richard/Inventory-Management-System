@@ -14,6 +14,7 @@ import ContactPage from "./pages/ContactPage";
 import ProductList from "./pages/products/ProductList";
 import AdminDashboard from "./components/AdminDashboard";
 import StockReport from "./components/StockReport";
+import OrdersList from "./components/OrdersList";
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
         <Route index element={<LandingPage />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/orders" element={<OrdersList />} />
       </Route>
     )
   );

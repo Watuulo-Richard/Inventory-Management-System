@@ -74,7 +74,7 @@ const [loading, setLoading] = useState(true);
               </div>
               <div className="card-footer">
                 <h5>
-                  <Link to="#" className="text-primary text-decoration-none">
+                  <Link to="/orders" className="text-primary text-decoration-none">
                     View Details
                   </Link>
                 </h5>

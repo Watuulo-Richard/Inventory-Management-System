@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Spinners from "../../components/Spinners";
+import axios from "axios";
 
 function ProductList() {
   const navigate = useNavigate();
@@ -14,6 +15,31 @@ function ProductList() {
   const [brand, setBrand] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
+
+  // const { id } = useParams();
+  // const [values, setValues] = useState({
+  //   id: id,
+  //   name: name,
+  //   price: price,
+  //   category: category,
+  //   brand: brand,
+  //   description: description,
+  //   quantity: quantity,
+  // })
+  // useEffect(() => {
+  //   axios.get('https://inventorymanagement-systemwithstrapi.onrender.com/api/products' + id)
+  //   .then(res => { setValues({...values, name: res.data.name, price: res.data.price, category: res.data.category, brand: res.data.brand, description: res.data.description, quantity: res.data.quantity})})
+  //   .catch(err => console.log(err))
+  // }, [])
+  // // const navigate = useNavigate()
+  // const handleSubmit = (e) => {
+  //   e.preventDefault()
+  //   axios.put('https://inventorymanagement-systemwithstrapi.onrender.com/api/products' + id, values)
+  //   .then(res => { 
+  //     navigate('/productlist')
+  //   })
+  //   .catch(err => console.log(err))
+  // }
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -74,37 +100,45 @@ function ProductList() {
     window.location.reload();
   };
 
-  const handleEdit = (product) => {
-    setEditingProduct(product);
-    setName(product.name);
-    setPrice(product.price);
-    setCategory(product.category);
-    setBrand(product.brand);
-    setDescription(product.description);
-    setQuantity(product.quantity); 
-  };
-
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
-    const updatedProducts = products.map((product) =>
-      product.id === editingProduct.id
-        ? {
-            ...product,
-            name,
-            price,
-            category,
-            brand,
-            description,
-            quantity, // Include quantity in the updated product
-          }
-        : product
-    );
+    try {
+        // Make an API request to update the product on the server
+        const response = await fetch(`https://inventorymanagement-systemwithstrapi.onrender.com/api/products/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name,
+                price,
+                category,
+                brand,
+                description,
+                quantity,
+            })
+        });
 
-    setProducts(updatedProducts);
-    localStorage.setItem("products", JSON.stringify(updatedProducts));
-    setEditingProduct(null); // Close the editing form
-  };
+        if (response.status === 200) {
+            // Parse the response JSON
+            const updatedProduct = await response.json();
+
+            // Update the product in the local state
+            const updatedProducts = products.map((product) =>
+                product.id === id ? updatedProduct : product
+            );
+
+            setProducts(updatedProducts);
+            setEditingProduct(null); // Close the editing form
+        } else {
+            console.error('Failed to update the product. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error updating product:', error);
+    }
+};
+
 
 // Delete Product 
 const deleteProduct = async (id) => {
@@ -162,8 +196,6 @@ const onDeleteClick = async (documentId) => {
 
   return (
     <div className="container my-5 py-5">
-
-      
         <button
           type="button"
           className="btn btn-primary w-100 w-md-auto"
@@ -172,8 +204,7 @@ const onDeleteClick = async (documentId) => {
         >
           Create a Product
         </button>
-      
-
+  
       <div
         className="modal fade"
         id="staticBackdrop"
@@ -197,7 +228,7 @@ const onDeleteClick = async (documentId) => {
               ></button>
             </div>
             <div className="modal-body">
-              <form onSubmit={editingProduct ? handleUpdate : addProductSubmit}>
+              <form onSubmit={addProductSubmit}>
                 <div className="mb-3">
                   <label htmlFor="productName" className="form-label">
                     Product Name
@@ -321,17 +352,8 @@ const onDeleteClick = async (documentId) => {
                   ></textarea>
                 </div>
                 <button type="submit" onClick={addProductSubmit} className="btn btn-primary">
-                  {editingProduct ? "Update Product" : "Create Product"}
+                  {"Create Product"}
                 </button>
-                {editingProduct && (
-                  <button
-                    type="button"
-                    className="btn btn-secondary ms-2"
-                    onClick={() => setEditingProduct(null)}
-                  >
-                    Cancel
-                  </button>
-                )}
               </form>
             </div>
           </div>
@@ -361,20 +383,102 @@ const onDeleteClick = async (documentId) => {
                 <td>{product.price}</td>
                 <td>
                   {product.quantity}
-                  {/* {product.quantity < 10 && (
-                    // <small className="text-danger d-block">Understocked</small>
+                  {product.quantity < 10 && (
+                    <small className="text-danger d-block">Understocked</small>
                   )}
                   {product.quantity > 50 && (
-                    // <small className="text-success d-block">Overstocked</small>
-                  )} */}
+                    <small className="text-success d-block">Overstocked</small>
+                  )}
                 </td>
                 <td style={{ width: "10px", whiteSpace: "nowrap" }}>
-                  <button
-                    onClick={() => handleEdit(product)}
-                    className="btn btn-primary btn-sm"
-                  >
-                    Edit
+                {/* <!-- Edit Button --> */}
+                  <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProductModal">
+                      Edit Product
                   </button>
+
+                  {/* <!-- Modal --> */}
+                  <div className="modal fade" id="editProductModal" tabIndex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+                    <div className="modal-dialog">
+                          <div className="modal-content">
+                              <div className="modal-header">
+                                  <h5 className="modal-title" id="editProductModalLabel">Edit Product</h5>
+                                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div className="modal-body">
+                                  <form onSubmit={ handleUpdate }>
+                                      <div className="mb-3">
+                                          <label htmlFor="productName" className="form-label">Product Name</label>
+                                          <input type="text" className="form-control" id="productName" placeholder="Enter product name" value={name} onChange={(e) => setName(e.target.value)}/>
+                                      </div>
+                                      <div className="mb-3">
+                                          <label htmlFor="productPrice" className="form-label">Price</label>
+                                          <input type="number" className="form-control" id="productPrice" placeholder="Enter price" value={price} onChange={(e) => setPrice(e.target.value)}/>
+                                      </div>
+                                      <div className="mb-3">
+                                          <label htmlFor="productBrand" className="form-label">Product Brand</label>
+                                          <input type="text" className="form-control" id="productBrand" placeholder="Enter brand" value={brand} onChange={(e) => setBrand(e.target.value)}/>
+                                      </div>
+                                      <div className="mb-3">
+                                        <label htmlFor="productCategory" className="form-label">
+                                          Category
+                                        </label>
+                                        <select
+                                          className="form-select"
+                                          id="productCategory"
+                                          required
+                                          value={category} onChange={(e) => setCategory(e.target.value)}
+                                        >
+                                          <option value="">Choose category</option>
+                                          <option value="Agricultural Products">
+                                            Agricultural Products
+                                          </option>
+                                          <option value="Grocery Items">Grocery Items</option>
+                                          <option value="Household Essentials">
+                                            Household Essentials
+                                          </option>
+                                          <option value="Livestock & Poultry Supplies">
+                                            Livestock & Poultry Supplies
+                                          </option>
+                                          <option value="Textiles and Clothing">
+                                            Textiles and Clothing
+                                          </option>
+                                          <option value="Hardware and Building Materials">
+                                            Hardware and Building Materials
+                                          </option>
+                                          <option value="Fuel & Energy">Fuel & Energy</option>
+                                          <option value="Health and Wellness">
+                                            Health and Wellness
+                                          </option>
+                                          <option value="Small Appliances and Tools">
+                                            Small Appliances and Tools
+                                          </option>
+                                          <option value="Beverages">Beverages</option>
+                                          <option value="Personal Care and Beauty">
+                                            Personal Care and Beauty
+                                          </option>
+                                          <option value="Crafts and Handicrafts">
+                                            Crafts and Handicrafts
+                                          </option>
+                                          <option value="Electronic Accessories">
+                                            Electronic Accessories
+                                          </option>
+                                        </select>
+                                      </div>
+                                      <div className="mb-3">
+                                          <label htmlFor="productQuantity" className="form-label">Quantity</label>
+                                          <input type="text" className="form-control" id="productQuantity" placeholder="Enter quantity" value={quantity}
+                                          onChange={(e) => setQuantity(e.target.value)}/>
+                                      </div>
+                                      <div className="mb-3">
+                                          <label htmlFor="productDescription" className="form-label">Description</label>
+                                          <textarea className="form-control" id="productDescription" rows="3" placeholder="Enter description" value = {description} onChange={(e) => setDescription(e.target.value)}></textarea>
+                                      </div>
+                                      <button type="submit" onClick={() => handleUpdate(product.documentId)} className="btn btn-primary">Save Changes</button>
+                                  </form>
+                              </div>
+                          </div>
+                    </div>
+                  </div>
                   <button
                     onClick={ () => onDeleteClick(product.documentId)}
                     className="btn btn-danger btn-sm mx-1"

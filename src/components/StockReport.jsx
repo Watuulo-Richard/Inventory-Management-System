@@ -40,10 +40,15 @@ function StockReport() {
             </tr>
           </thead>
           <tbody>
-            {understocked.map((product,index)=>(
+            {understocked.map((product, index)=>(
                 <tr key={`understock-${index}`}>
-                <td>{product?.name}</td>
-                <td>{product?.quantity}</td>
+                  <td>{product.name}</td>
+                  <td>{product?.quantity}</td>
+                  <td>
+                    {product.quantity < 10 && (
+                      <small className="text-danger d-block">Understocked</small>
+                    )}
+                  </td>
               </tr>
             ))}
           </tbody>
@@ -54,17 +59,20 @@ function StockReport() {
         <table className="table">
           <thead>
             <tr>
-              
               <th scope="col">Product Name</th>
               <th scope="col">Quantity</th>
-              
             </tr>
           </thead>
           <tbody>
             {overstocked.map((product,index)=>(
             <tr key={`overstock-${index}`}>
-              <td>{product?.name}</td>
-              <td>{product?.quantity}</td>
+              <td>{product.name}</td>
+              <td>{product.quantity}</td>
+              <td>
+                  {product.quantity > 50 && (
+                    <small className="text-success d-block">Overstocked</small>
+                  )}
+              </td>
             </tr>
             ))}
           </tbody>
