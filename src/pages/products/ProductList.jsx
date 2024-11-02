@@ -386,12 +386,12 @@ const onDeleteClick = async (documentId) => {
                 <td>{product.price}</td>
                 <td>
                   {product.quantity}
-                  {product.quantity < 10 && (
+                  {/* {product.quantity < 10 && (
                     <small className="text-danger d-block">Understocked</small>
                   )}
                   {product.quantity > 50 && (
                     <small className="text-success d-block">Overstocked</small>
-                  )}
+                  )} */}
                 </td>
                 <td style={{ width: "10px", whiteSpace: "nowrap" }}>
                 {/* <!-- Edit Button --> */}

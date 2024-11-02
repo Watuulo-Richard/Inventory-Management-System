@@ -8,7 +8,7 @@ const OrdersList = () => {
           try {
             // Fetch from API if not found in localStorage
             const res = await fetch(
-              "http://localhost:1337/api/orders"
+              "https://inventorymanagement-systemwithstrapi.onrender.com/api/orders"
             );
             const data = await res.json();
             const orderData = data.data || [];

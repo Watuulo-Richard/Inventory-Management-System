@@ -56,7 +56,7 @@ const NavigationBar = () => {
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link btn btn-dark mx-2" to="/order">
+                                    <Link className="nav-link btn btn-dark mx-2" to="/orders">
                                         <span className="text-white fw-bold text-decoration-none">
                                             Order <i className="fa-solid fa-arrow-down-short-wide text-warning mx-2"></i>
                                         </span>
