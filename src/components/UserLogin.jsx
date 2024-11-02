@@ -9,6 +9,11 @@ const UserLogin = () => {
    const navigate = useNavigate()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleNavbar = () => {
+        setIsOpen(!isOpen);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -36,8 +41,31 @@ const UserLogin = () => {
     if(loading) {
         return <Spinners loading={ loading }/>
       }
+
   return (
     <>
+      <nav className="navbar navbar-expand-lg navbar-light bg-primary fixed-top">
+            <div className="container-fluid">
+                <Link className="navbar-brand btn btn-dark" to="/">
+                    <div className="fw-bold d-none d-sm-block">
+                        <span className="text-white">IMS</span>
+                    </div>
+                </Link>
+                <button
+                    className="navbar-toggler"
+                    type="button"
+                    onClick={toggleNavbar}
+                    aria-controls="navbarNavDropdown"
+                    aria-expanded={isOpen}
+                    aria-label="Toggle navigation"
+                >
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarNavDropdown">
+                    
+                </div>
+            </div>
+      </nav>
       <div className="container my-5 py-5">
         <div className="row">
             <div className="col-md-6">
@@ -65,8 +93,8 @@ const UserLogin = () => {
                   <button className="btn btn-primary " type="submit">
                     Login
                   </button>
-                  <Link to='/register' className="btn btn-outline-primary my-2" type="submit">
-                    Sign-Up
+                  <Link to='/register' className="mx-auto my-2" type="submit">
+                    If You Don't Have An Account Sign Up ?
                   </Link>
                 </div>
               </form>

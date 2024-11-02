@@ -7,6 +7,12 @@ import { useState, useEffect } from 'react'
 import { Spring } from 'react-spring'
 
 const LandingPage = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleNavbar = () => {
+        setIsOpen(!isOpen);
+    };
+
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -17,8 +23,39 @@ const LandingPage = () => {
         return <Spinners loading={ loading }/>
       }
   return (
-    
     <>
+        <nav className="navbar navbar-expand-lg navbar-light bg-primary fixed-top">
+            <div className="container-fluid">
+                <Link className="navbar-brand btn btn-dark" to="/">
+                    <div className="fw-bold d-none d-sm-block">
+                        <span className="text-white">IMS</span>
+                    </div>
+                </Link>
+                <button
+                    className="navbar-toggler"
+                    type="button"
+                    onClick={toggleNavbar}
+                    aria-controls="navbarNavDropdown"
+                    aria-expanded={isOpen}
+                    aria-label="Toggle navigation"
+                >
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarNavDropdown">
+                    <ul className="navbar-nav ms-auto my-2 mb-lg-0">
+
+                        
+                            <li className="nav-item">
+                                <Link className="nav-link btn btn-dark mx-2" to="/login">
+                                    <span className="text-white fw-bold text-decoration-underline">
+                                        Login <i className="fas fa-sign-in-alt text-warning"></i>
+                                    </span>
+                                </Link>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <div className="my-5 py-5">
             <Spring 
                 from={{ opacity: 0, marginTop: -500 }}

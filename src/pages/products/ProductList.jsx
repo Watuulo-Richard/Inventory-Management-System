@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Spinners from "../../components/Spinners";
-import axios from "axios";
+// import axios from "axios";
+import NavigationBar from "../../components/NavigationBar";
 
 function ProductList() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editingProduct, setEditingProduct] = useState(null);
+  // const [editingProduct, setEditingProduct] = useState(null);
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -195,7 +196,9 @@ const onDeleteClick = async (documentId) => {
   }
 
   return (
-    <div className="container my-5 py-5">
+    <div className="">
+      <NavigationBar/>
+      <div className="container my-5 py-5">
         <button
           type="button"
           className="btn btn-primary w-100 w-md-auto"
@@ -495,7 +498,9 @@ const onDeleteClick = async (documentId) => {
           )}
         </tbody>
       </table>
+      </div>
     </div>
+    
   );
 }
 

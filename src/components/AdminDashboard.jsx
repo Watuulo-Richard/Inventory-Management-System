@@ -2,8 +2,22 @@ import axios from "axios";
 import {useState,useEffect} from "react";
 import { Link } from 'react-router-dom'
 import Spinners from './Spinners'
+import NavigationBar from "./NavigationBar";
 function AdminDashboard() {
 const [productCount, setProductCount]= useState(0)
+const [ordersCount, setOrdersCount] = useState(0);
+
+useEffect(()=>{
+  axios.get("https://inventorymanagement-systemwithstrapi.onrender.com/api/orders")
+  .then(response=>{
+    const orders = response.data.data
+
+    setOrdersCount(orders.length)
+  })
+  .catch(error=>{
+    console.error("Error fetching products", error)
+  })
+},[])
 
 useEffect(()=>{
   axios.get("https://inventorymanagement-systemwithstrapi.onrender.com/api/products")
@@ -28,6 +42,8 @@ const [loading, setLoading] = useState(true);
       }
 
   return (
+    <div className="">
+      <NavigationBar/>
       <div className="main my-5">
             <div className="container-fluid border-bottom">
               <div className="row">
@@ -67,7 +83,7 @@ const [loading, setLoading] = useState(true);
                   <i className="mt-2 fa-solid fa-arrow-down-short-wide text-warning fa-4x"></i>
                   </div>
                   <div className="col text-warning">
-                    <h3 className="display-3">08</h3>
+                    <h3 className="display-3">{ordersCount}</h3>
                     <h6 className="fw-bold">Orders</h6>
                   </div>
                 </div>
@@ -89,8 +105,10 @@ const [loading, setLoading] = useState(true);
                     <i className="fa-solid fa-chart-column fa-4x text-warning mt-2"></i>
                   </div>
                   <div className="col">
-                    <h3 className="display-3 text-warning">08</h3>
-                    <h6 className="fw-bold text-warning">Stock Status</h6>
+                    <h3 className="display-6 text-warning">
+                      Stock Status
+                    </h3>
+                    <h6 className="fw-bold text-warning"></h6>
                   </div>
                 </div>
               </div>
@@ -103,9 +121,10 @@ const [loading, setLoading] = useState(true);
           </div>
         </div>
 
-       
       </div>
       </div>
+    </div>
+      
   );
 }
 

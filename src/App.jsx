@@ -16,12 +16,11 @@ import AdminDashboard from "./components/AdminDashboard";
 import StockReport from "./components/StockReport";
 import OrdersList from "./components/OrdersList";
 
-
 const App = () => {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<MainLayout />}>
+      <Route>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<UserLogin />} />
         <Route path="/productlist" element={<ProductList />} />

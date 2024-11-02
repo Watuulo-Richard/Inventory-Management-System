@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-
+import NavigationBar from './NavigationBar';
 function StockReport() {
     const [understocked, setUnderstocked]= useState([]);
     const [overstocked, setOverstocked]= useState([]);
@@ -30,6 +30,8 @@ function StockReport() {
 
     console.log("understocked", understocked)
   return (
+    <div className="">
+      <NavigationBar/>
       <div className='container py-5 my-5'>
         <h2>UnderStocked Products</h2>
         <table className="table">
@@ -78,6 +80,8 @@ function StockReport() {
           </tbody>
         </table>
       </div>
+    </div>
+      
   )
 }
 

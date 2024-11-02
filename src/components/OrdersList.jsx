@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-
+import NavigationBar from './NavigationBar';
 const OrdersList = () => {
     const [orders, setOrders] = useState([]);
 
@@ -27,7 +27,9 @@ const OrdersList = () => {
         fetchOrders();
       }, []);
   return (
-    <div className='container my-5 py-5'>
+    <div className="">
+        <NavigationBar/>
+        <div className='container my-5 py-5'>
         <table className="table table-sm">
         <thead>
           <tr>
@@ -153,6 +155,8 @@ const OrdersList = () => {
         </tbody>
       </table>
     </div>
+    </div>
+    
   )
 }
 
