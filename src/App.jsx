@@ -4,77 +4,33 @@ import {
   createRoutesFromElements,
   RouterProvider,
 } from "react-router-dom";
-import ProductsPage from "./pages/products/ProductsPage";
 import MainLayout from "./layout/MainLayout";
 import Dashboard from "./pages/Dashboard";
 import LandingPage from "./pages/LandingPage";
 import NotFoundPage from "./pages/products/NotFoundPage";
-import { useState } from "react";
+import UserLogin from "./components/UserLogin";
+import UserRegistration from "./components/UserRegistration";
+import ContactPage from "./pages/ContactPage";
+import ProductList from "./pages/products/ProductList";
+import AdminDashboard from "./components/AdminDashboard";
+import StockReport from "./components/StockReport";
+import OrdersList from "./components/OrdersList";
 
-// Add New Product
 const App = () => {
-  const [productImage, setProductImage] = useState(null);
-  const newProduct = async (addNewProduct) => {
-    
-    const formData = new FormData();
-    formData.append("files", productImage);
-    
-    const res = await fetch("http://localhost:1337/api/upload", {
-      method: "POST",
-      // headers: { "Content-Type": "application/json" },
-      // body: JSON.stringify({ data: addNewProduct }),
-      body: formData,
-
-      mode: "cors",
-    });
-    let data = await res.json();
-    let imageId = data[0].id;
-    console.log(data);
-
-    const productsData = await fetch("http://localhost:1337/api/products", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ data: {
-        name: addNewProduct.name,
-        price: addNewProduct.price,
-        category: addNewProduct.category,
-        description: addNewProduct.description,
-        brand: addNewProduct.brand,
-        productImage: imageId
-      } }),
-    });
-
-    let products = await productsData.json()
-    console.log(products)
-  };
-
-  // Delete Product
-  const deleteProduct = async (id) => {
-    const res = await fetch(`http://localhost:1337/api/products/${id}`, {
-      method: "DELETE",
-      mode: "cors",
-    });
-    console.log(res);
-    return;
-  };
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<MainLayout />}>
+      <Route>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/login" element={<UserLogin />} />
+        <Route path="/productlist" element={<ProductList />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/stockstatus" element={<StockReport />} />
+        <Route path="/register" element={<UserRegistration/>} />
         <Route index element={<LandingPage />} />
         <Route path="*" element={<NotFoundPage />} />
-        <Route
-          path="/products"
-          element={
-            <ProductsPage
-              addProductSubmit={newProduct}
-              deleteProduct={deleteProduct}
-              setProductImage={setProductImage}
-              productImage={productImage}
-            />
-          }
-        />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/orders" element={<OrdersList />} />
       </Route>
     )
   );

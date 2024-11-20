@@ -1,10 +1,18 @@
+/* eslint-disable no-unused-vars */
 import Sparkle from '../assets/images/sparkles_6853977.svg'
 import inventImage from '../assets/images/inventImage.jpg'
 import { Link } from 'react-router-dom'
 import Spinners from '../components/Spinners'
 import { useState, useEffect } from 'react'
+import { Spring } from 'react-spring'
 
 const LandingPage = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleNavbar = () => {
+        setIsOpen(!isOpen);
+    };
+
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -16,20 +24,63 @@ const LandingPage = () => {
       }
   return (
     <>
-        <div className="my-5 py-5">
-            <div className="container">
-                <div className='row'>
-                    <div className="col-md-6">
-                        <h1 className='text-primary fw-bold'>Product Inventory</h1>
-                        <p className='my-3 text-capitalize text-muted'>Our Product Inventory System simplifies stock management, providing real-time tracking, automated updates, and insightful reporting. Designed to optimize efficiency, it helps businesses monitor inventory levels, categorize products, and make data-driven decisions with ease and accuracy.</p>
+        <nav className="navbar navbar-expand-lg navbar-light bg-primary fixed-top">
+            <div className="container-fluid">
+                <Link className="navbar-brand btn btn-dark" to="/">
+                    <div className="fw-bold d-none d-sm-block">
+                        <span className="text-white">IMS</span>
+                    </div>
+                </Link>
+                <button
+                    className="navbar-toggler"
+                    type="button"
+                    onClick={toggleNavbar}
+                    aria-controls="navbarNavDropdown"
+                    aria-expanded={isOpen}
+                    aria-label="Toggle navigation"
+                >
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarNavDropdown">
+                    <ul className="navbar-nav ms-auto my-2 mb-lg-0">
 
-                        <Link to="/dashboard" className='btn btn-primary btn-lg w-100 rounded-pill'>Get Started</Link>
-                    </div>
-                    <div className="col-md-6">
-                        <img src={ inventImage } alt="" className='w-100 img-fluid rounded' />
-                    </div>
+                        
+                            <li className="nav-item">
+                                <Link className="nav-link btn btn-dark mx-2" to="/login">
+                                    <span className="text-white fw-bold text-decoration-underline">
+                                        Login <i className="fas fa-sign-in-alt text-warning"></i>
+                                    </span>
+                                </Link>
+                            </li>
+                    </ul>
                 </div>
             </div>
+        </nav>
+        <div className="my-5 py-5">
+            <Spring 
+                from={{ opacity: 0, marginTop: -500 }}
+                to={{ opacity: 1, marginTop: 0 }}
+                config={{ delay:4000, duration:1000 }}
+            >
+                { props => (
+                    <div style={props}>
+                        <div className="container">
+                            <div className='row'>
+                                <div className="col-md-6">
+                                    <h1 className='text-primary fw-bold'>Product Inventory</h1>
+                                    <p className='my-3 text-capitalize text-muted'>Our Product Inventory System simplifies stock management, providing real-time tracking, automated updates, and insightful reporting. Designed to optimize efficiency, it helps businesses monitor inventory levels, categorize products, and make data-driven decisions with ease and accuracy.</p>
+
+                                    <Link to="/login" className='btn btn-primary btn-lg w-100 rounded-pill'>Get Started</Link>
+                                </div>
+                                <div className="col-md-6">
+                                    <img src={ inventImage } alt="" className='w-100 img-fluid rounded' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ) }
+            </Spring>
+            
         
             <section className="icons bg-light rounded p-5">
                 <div className="row">
@@ -68,28 +119,7 @@ const LandingPage = () => {
                     </div>
                 </div>
             </section>
-
-        {/* Subscription */}
-
-        <section id="subscription" className="mt-5">
-            <div className="container">
-                <div className="col-md-6 offset-md-3 text-center align-items-center">
-                    <h2 className="fw-bold text-primary"><i className="fa-solid fa-envelope "></i> Stay Updated with the Latest Features</h2>
-                    <p>Be the first to know about new features, product updates, and tips on maximizing your inventory management system. Subscribe to our newsletter and never miss an important update that can help you streamline your business operations.</p>
-                </div>
-                <div className="row">
-                    <div className="col-md-6 offset-md-3 text-center align-items-center">
-                        <div className="input-group mb-3">
-                            <input type="email" className="form-control" placeholder='Enter Email Address'/>
-                            <button type='button' className="btn btn-primary text-white rounded-0">Submit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
         </div>
-
-        {/* Services & Testimonials */}
 
         <section className="services text-bg-dark py-5 position-relative">
             <div className="container">
@@ -129,6 +159,53 @@ const LandingPage = () => {
                 </div>
             </div>
         </section>
+
+        <footer className='footer bg-dark text-white position-relative py-5'>
+        <div className="container py-5">
+            <div className="row">
+                <div className="col-md-4">
+                    <h4 className="text-center text-md-start fw-bold">About Product Inventory</h4>
+                    <p className="text-center text-md-start">Our Inventory Management System is designed to streamline your business operations by giving you full control over your stock in real-time. Whether you are managing hundreds of products or just a few.</p>
+                </div>
+                <div className="col-md-4">
+                    <h4 className="text-center text-md-start fw-bold">Links</h4>
+                    <ul className="list-unstyled text-center text-md-start">
+                        <li>Important: <Link to="/terms" className="text-decoration-none">Terms & Conditions</Link>
+                        </li>
+                    </ul>
+                    <ul className="list-unstyled text-center text-md-start">
+                        <li>Useful: <Link to="/privacy" className="text-decoration-none">Privacy Policy</Link>
+                        </li>
+                    </ul>
+                    <ul className="list-unstyled text-center text-md-start">
+                        <li>Menu: <Link to="/" className="text-decoration-none">Home</Link>
+                        <Link to="/dashboard" className="text-decoration-none mx-2">Dashboard</Link>
+                        <Link to="/contact" className="text-decoration-none">Contact Us</Link>
+                        </li>
+                    </ul>
+                </div>
+                <div className="col-md-4">
+                    <div className="mb-4 text-center text-md-start">
+                        <a href="#" className="text-decoration-none">
+                            <i className="fab fa-facebook fa-3x text-light mx-2"></i>
+                        </a>
+                        <a href="#" className="text-decoration-none">
+                            <i className="fa-brands fa-x-twitter fa-3x text-light mx-2"></i>
+                        </a>
+                        <a href="#" className="text-decoration-none">
+                        <i className="fa-brands fa-instagram fa-3x text-light mx-2"></i>
+                        </a>
+                        <a href="#" className="text-decoration-none">
+                            <i className="fa-brands fa-youtube fa-3x text-light mx-2"></i>
+                        </a>
+                        <a href="#" className="text-decoration-none">
+                            <i className="fa-brands fa-whatsapp fa-3x text-light mx-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </footer>
     </>
     
     

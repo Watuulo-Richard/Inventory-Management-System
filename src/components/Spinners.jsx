@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import HashLoader from 'react-spinners/HashLoader'
 
 const override = {

@@ -1,6 +1,25 @@
 import { Link } from 'react-router-dom'
 import profilePicture from '../assets/images/User.jpg'
+import { useState } from 'react'
 const HeaderSection = () => {
+
+  const [profile, setProfile] = useState("");
+
+  const fetchUserProfile = async () => {
+    try {
+      const res = await fetch('https://inventory-strapi-data.onrender.com/api/users');
+      const data = await res.json();
+      setProfile(data);
+      console.log(data)
+      
+    } catch (error) {
+      console.log('Error Fetching Data', error);
+    } 
+    
+  }
+
+  fetchUserProfile()
+
   return (
     <>
       <header className="container my-5 py-5">
@@ -12,10 +31,10 @@ const HeaderSection = () => {
               <div className="p-2">
                 
                 <h5 className="card-title fw-bold"><i className="fa-solid fa-id-card"></i> Profile Info.</h5>
-                <p className="card-text fw-normal">Watuulo-Richard</p>
-                <p className="card-text">Admin</p>
+                <p className="card-text fw-normal">{ profile.username}</p>
+                <p className="card-text">{profile.email}</p>
                 <p className="card-text">Last Login : xxxx-xx-xx</p>
-                <Link to="#" className="btn btn-sm btn-primary w-100"><i className="fa-solid fa-pen-to-square text-warning"></i> Edit Profile</Link>
+                
               </div>
             </div>
           </div>
@@ -36,7 +55,7 @@ const HeaderSection = () => {
                         <p className="card-text">
                           Here You Can Make Invoices And See Reports Of Your Stock
                         </p>
-                        <Link to="#" className="btn btn-sm btn-primary"><i className="fa-solid fa-cart-plus text-warning"></i> New Orders</Link>
+                        <Link to="#" className="btn btn-sm btn-primary w-100"><i className="fa-solid fa-cart-plus text-warning"></i> View Report</Link>
                   </div> 
                 </div>
               </div>
@@ -58,9 +77,6 @@ const HeaderSection = () => {
             </div>
           </div>
         </div>
-
-        
-
       </header>
     </>
   )
